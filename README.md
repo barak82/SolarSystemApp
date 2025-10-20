@@ -1,4 +1,4 @@
-## Solar System Information System App Mandatory Requirements
+## Solar System Information App
 ## Usage Instructions
 
 1. Install packages based on the `requirements.txt`
