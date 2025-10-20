@@ -9,7 +9,7 @@ class SolarSystemGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Ask Solar System Info")
-        self.root.geometry("1500x1200")
+        self.root.geometry("1200x600")
         
         self.manager = SolarSystemExecuter()
         self.query_execute = QueryExecuter(self.manager)
@@ -17,7 +17,7 @@ class SolarSystemGUI:
         self.get_planet_list()
     
     def execute_GUI(self):
-      
+        custom_font = tkfont.Font(family="Times New Roman", size=12, weight="bold", slant="italic")
         
         main_frame = ttk.Frame(self.root, padding="10")
         main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
@@ -31,40 +31,8 @@ class SolarSystemGUI:
                                font=("Times New Roman", 18, "bold"))
         title_label.grid(row=0, column=0, columnspan=3, pady=(0, 20))
         
-        query_pre_frame = ttk.LabelFrame(main_frame, text="Feel free to ask a Question about planets", padding="10")
-        query_pre_frame.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
-        query_pre_frame.columnconfigure(0, weight=1)
-        
-        ttk.Label(query_pre_frame, text="pleaese dont forget to type below your question:").grid(row=0, column=0, sticky=tk.W, pady=(0, 5))
-        
-        self.query_var = tk.StringVar()
-        query_entry = ttk.Entry(query_pre_frame, textvariable=self.query_var, width=80)
-        query_entry.grid(row=1, column=0, sticky=(tk.W, tk.E), padx=(0, 10))
-        query_entry.bind('<Return>', lambda e: self.process_each_query())
-        
-        ttk.Button(query_pre_frame, text="Ask", 
-                  command=self.process_each_query).grid(row=1, column=1)
-        
-        init_example_frame = ttk.Frame(query_pre_frame)
-        init_example_frame.grid(row=2, column=0, columnspan=4, sticky=tk.W, pady=(15, 0))
-        custom_font = tkfont.Font(family="Times New Roman", size=12, weight="bold", slant="italic")
-        ttk.Label(init_example_frame, text="check here for some samples:", font=custom_font).pack(side=tk.LEFT)
-        
-        examples = [
-            "How many moons does Earth have?",
-            "Is venus in the list of planets?",
-            "Tell me everything about venus",
-            "How massive is pluto?"
-        ]
-        
-        for example in examples:
-            example_btn = ttk.Button(init_example_frame, text=example, width=20,
-                                   command=lambda e=example: self.load_example_query(e))
-            example_btn.pack(side=tk.LEFT, padx=(5, 0))
-        
-        # Query section 
         query_frame = ttk.LabelFrame(main_frame, text="Quick Queries", padding="10")
-        query_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        query_frame.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         query_frame.columnconfigure(1, weight=1)
         
         # Planet selection
@@ -79,28 +47,49 @@ class SolarSystemGUI:
         
         ttk.Button(button_frame, text="Everything", 
                   command=self.execute_show_everything).pack(side=tk.LEFT, padx=(0, 5))
+        ttk.Button(button_frame, text="Moon Count", 
+                  command=self.execute_show_moon_count).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="Moons", 
+                  command=self.execute_show_moons).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Mass", 
                   command=self.execute_show_mass).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Distance", 
                   command=self.execute_show_distance).pack(side=tk.LEFT, padx=5)
-        ttk.Button(button_frame, text="Moons", 
-                  command=self.execute_show_moons).pack(side=tk.LEFT, padx=5)
-        ttk.Button(button_frame, text="Moon Count", 
-                  command=self.execute_show_moon_count).pack(side=tk.LEFT, padx=5)
+
+       
+        query_pre_frame = ttk.LabelFrame(main_frame, text="Feel free to ask a Question about planets", padding="10")
+        query_pre_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
+        query_pre_frame.columnconfigure(0, weight=1)
         
-     
-        custom_frame = ttk.LabelFrame(main_frame, text="Custom Query", padding="10")
-        custom_frame.grid(row=3, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
-        custom_frame.columnconfigure(1, weight=1)
-        ttk.Label(custom_frame, text="Enter planet name:").grid(row=0, column=0, sticky=tk.W, padx=(0, 10))
-        self.custom_planet_var = tk.StringVar()
-        custom_entry = ttk.Entry(custom_frame, textvariable=self.custom_planet_var)
-        custom_entry.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=(0, 10))
-        custom_entry.bind('<Return>', lambda e: self.check_planet_exists())
-        ttk.Button(custom_frame, text="Check if planet exists", 
-                  command=self.check_planet_exists).grid(row=0, column=2)
+        ttk.Label(query_pre_frame, text="pleaese dont forget to type below your question:").grid(row=0, column=0, sticky=tk.W, pady=(0, 5))
+        
+        self.query_var = tk.StringVar()
+        query_entry = ttk.Entry(query_pre_frame, textvariable=self.query_var, width=80)
+        query_entry.grid(row=1, column=0, sticky=(tk.W, tk.E), padx=(0, 10))
+        query_entry.bind('<Return>', lambda e: self.process_each_query())
+        
+        ttk.Button(query_pre_frame, text="Ask", 
+                  command=self.process_each_query).grid(row=1, column=1)
+        
+        init_example_frame = ttk.Frame(query_pre_frame)
+        init_example_frame.grid(row=2, column=0, columnspan=15, sticky=tk.W, pady=(15, 0))
+        
+        ttk.Label(init_example_frame, text="check here for some samples:", font=custom_font).pack(side=tk.LEFT)
+        
+        examples = [
+            "How many moons does Earth have?",
+            "Is venus in the list of planets?",
+            "Tell me everything about venus",
+            "How massive is pluto?"
+        ]
+        
+        for example in examples:
+            example_btn = ttk.Button(init_example_frame, text=example, width=40,
+                                   command=lambda e=example: self.load_example_query(e))
+            example_btn.pack(side=tk.LEFT, padx=(5, 0))
+        
         results_frame = ttk.LabelFrame(main_frame, text="Results", padding="10")
-        results_frame.grid(row=4, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S))
+        results_frame.grid(row=4, column=0, columnspan=10, sticky=(tk.W, tk.E, tk.N, tk.S))
         results_frame.columnconfigure(0, weight=1)
         results_frame.rowconfigure(0, weight=1)
         self.results_text = scrolledtext.ScrolledText(results_frame, height=15, width=80, wrap=tk.WORD)
