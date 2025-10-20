@@ -28,15 +28,15 @@ class SolarSystemExecuter:
     
     def create_default_data(self):
         self.planets = [
-            Planet("Mercury", 3.301e23, 57900000, []),
-            Planet("Venus", 4.867e24, 108200000, []),
-            Planet("Earth", 5.972e24, 149600000, ["Moon"]),
-            Planet("Mars", 6.417e23, 227900000, ["Deimos","Phobos"]),
-            Planet("Jupiter", 1.898e27, 778500000, ["Europa", "Io", "Ganymede", "Callisto"]),
-            Planet("Saturn", 5.683e26, 1432000000, ["Titan", "Iapetus", "Rhea", "Dione"]),
-            Planet("Uranus", 8.681e25, 2867000000, ["Titania", "Umbriel", "Oberon", "Ariel"]),
-            Planet("Neptune", 1.024e26, 4515000000, ["Proteus","Triton", "Nereid"]),
-            Planet("Pluto", 1.309e22, 5906400000, ["Styx","Charon", "Nix"])
+            Planet("Mercury", 3.3e23, 579e5, []),
+            Planet("Venus", 4.8e24, 1082e5, []),
+            Planet("Earth", 5.9e24, 1496e5, ["Moon"]),
+            Planet("Mars", 6.4e23, 2279e5, ["Deimos","Phobos"]),
+            Planet("Jupiter", 1.8e27, 7785e5, ["Europa", "Io", "Ganymede", "Callisto"]),
+            Planet("Saturn", 5.6e26, 14320e5, ["Titan", "Iapetus", "Rhea", "Dione"]),
+            Planet("Uranus", 8.7e25, 28670e5, ["Titania", "Umbriel", "Oberon", "Ariel"]),
+            Planet("Neptune", 1.0e26, 45150e5, ["Proteus","Triton", "Nereid"]),
+            Planet("Pluto", 1.3e22, 59064e5, ["Styx","Charon", "Nix"])
         ]
     
     def get_planet(self, planet_name):

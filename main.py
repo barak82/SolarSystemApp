@@ -1,7 +1,4 @@
-import json
 import os
-import traceback
-import re
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
 from GUI.solarSystemGui import SolarSystemGUI

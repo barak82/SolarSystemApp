@@ -1,12 +1,11 @@
 import re
 class QueryExecuter:
-    """Class to cehck extended questions on the queries about planets"""
     
     def __init__(self, solar_system_manager):
         self.manager = solar_system_manager
         
         # define possible quires to capture different types of quires  
-        self.qureyadd = {
+        self.possible_query = {
             'everything': [
                 r'tell me everything about (\w+)',
                 r'show me all information about (\w+)',
@@ -55,7 +54,7 @@ class QueryExecuter:
         query_lower = query.lower().strip()
         
         # Check for each query type
-        for query_type, diff_query in self.qureyadd.items():
+        for query_type, diff_query in self.possible_query.items():
             planet_name = self.search_planet_name(query_lower, diff_query)
             
             if planet_name:
@@ -142,9 +141,9 @@ class QueryExecuter:
     def check_existence_response(self, planet_name):
         exists = self.manager.is_planet_in_list(planet_name)
         if exists:
-            return f"Yes, {planet_name} is in my list of planets."
+            return f"Yes, {planet_name} is in the list of planets."
         else:
-            return f"No, {planet_name} is not in my list of planets."
+            return f"No, {planet_name} is not in the list of planets."
     
     def get_list_planets_response(self):
         planets = self.manager.get_all_planet_names()
@@ -153,12 +152,12 @@ class QueryExecuter:
     def reply_unclear_questions(self):
         help_text = """ the questions is unclear please use this as example to ask:
 
-            • "Tell me everything about Saturn"
+            • "Tell me everything about pluto"
             • "How massive is Neptune?"
             • "Is Pluto in the list of planets?"
             • "How many moons does Earth have?"
             • "What moons does Mars have?"
-            • "How far is Jupiter from the Sun?"
+            • "How far is earth from the Sun?"
             • "List all planets"
             """
         return help_text

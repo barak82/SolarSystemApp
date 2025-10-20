@@ -1,11 +1,12 @@
 ## Solar System Information System App Mandatory Requirements
 ## Usage Instructions
 
-1. Run the program: `python main.py`
+1. Install packages based on the `requirements.txt`
+2. Run the program: `python main.py`
 2. Select a planet from the dropdown or list
 3. Click query buttons to get specific information
-4. write your querry on the space to check if a planet exists
-5. Results display in the text area below
+4. write your querry on the space to check if a planet exists or any other query 
+5. Results will be display in the text area below
 
 ### Data Types
 - Planet names are represented as strings
