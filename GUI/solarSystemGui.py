@@ -2,23 +2,21 @@ import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
 from model.solarSystemExecute import SolarSystemExecuter
 from model.queryExecuter import QueryExecuter
+import tkinter.font as tkfont
 
 class SolarSystemGUI:
-    """GUI class for the solar system application"""
     
     def __init__(self, root):
         self.root = root
-        self.root.title("Solar System Information")
+        self.root.title("Ask Solar System Info")
         self.root.geometry("1500x1200")
         
         self.manager = SolarSystemExecuter()
         self.query_execute = QueryExecuter(self.manager)
-        
-        self.create_GUI()
-        
+        self.execute_GUI()
         self.get_planet_list()
     
-    def create_GUI(self):
+    def execute_GUI(self):
       
         
         main_frame = ttk.Frame(self.root, padding="10")
@@ -29,15 +27,15 @@ class SolarSystemGUI:
         main_frame.columnconfigure(1, weight=1)
         main_frame.rowconfigure(1, weight=1)
         
-        title_label = ttk.Label(main_frame, text="Solar System Information", 
-                               font=("Arial", 16, "bold"))
+        title_label = ttk.Label(main_frame, text="Ask Solar System Info", 
+                               font=("Times New Roman", 18, "bold"))
         title_label.grid(row=0, column=0, columnspan=3, pady=(0, 20))
         
-        query_pre_frame = ttk.LabelFrame(main_frame, text="Ask a Question about planets", padding="10")
+        query_pre_frame = ttk.LabelFrame(main_frame, text="Feel free to ask a Question about planets", padding="10")
         query_pre_frame.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
         query_pre_frame.columnconfigure(0, weight=1)
         
-        ttk.Label(query_pre_frame, text="Type below your question:").grid(row=0, column=0, sticky=tk.W, pady=(0, 5))
+        ttk.Label(query_pre_frame, text="pleaese dont forget to type below your question:").grid(row=0, column=0, sticky=tk.W, pady=(0, 5))
         
         self.query_var = tk.StringVar()
         query_entry = ttk.Entry(query_pre_frame, textvariable=self.query_var, width=80)
@@ -47,24 +45,24 @@ class SolarSystemGUI:
         ttk.Button(query_pre_frame, text="Ask", 
                   command=self.process_each_query).grid(row=1, column=1)
         
-        example_frame = ttk.Frame(query_pre_frame)
-        example_frame.grid(row=2, column=0, columnspan=4, sticky=tk.W, pady=(15, 0))
-        
-        ttk.Label(example_frame, text="here are some samples:", font=("Arial", 10, "italic")).pack(side=tk.LEFT)
+        init_example_frame = ttk.Frame(query_pre_frame)
+        init_example_frame.grid(row=2, column=0, columnspan=4, sticky=tk.W, pady=(15, 0))
+        custom_font = tkfont.Font(family="Times New Roman", size=12, weight="bold", slant="italic")
+        ttk.Label(init_example_frame, text="check here for some samples:", font=custom_font).pack(side=tk.LEFT)
         
         examples = [
             "How many moons does Earth have?",
-            "Is Pluto in the list of planets?",
-            "Tell me everything about Saturn",
-            "How massive is Neptune?"
+            "Is venus in the list of planets?",
+            "Tell me everything about venus",
+            "How massive is pluto?"
         ]
         
         for example in examples:
-            example_btn = ttk.Button(example_frame, text=example, width=20,
+            example_btn = ttk.Button(init_example_frame, text=example, width=20,
                                    command=lambda e=example: self.load_example_query(e))
             example_btn.pack(side=tk.LEFT, padx=(5, 0))
         
-        # Query section (original button-based interface)
+        # Query section 
         query_frame = ttk.LabelFrame(main_frame, text="Quick Queries", padding="10")
         query_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         query_frame.columnconfigure(1, weight=1)
@@ -76,43 +74,35 @@ class SolarSystemGUI:
                                         values=self.manager.get_all_planet_names())
         self.planet_all_check.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=(0, 10))
         self.planet_all_check.bind('<<ComboboxSelected>>', self.on_planet_select)
-        
-        # Query buttons
         button_frame = ttk.Frame(query_frame)
         button_frame.grid(row=1, column=0, columnspan=3, pady=(10, 0))
         
         ttk.Button(button_frame, text="Everything", 
-                  command=self.show_everything).pack(side=tk.LEFT, padx=(0, 5))
+                  command=self.execute_show_everything).pack(side=tk.LEFT, padx=(0, 5))
         ttk.Button(button_frame, text="Mass", 
-                  command=self.show_mass).pack(side=tk.LEFT, padx=5)
+                  command=self.execute_show_mass).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Distance", 
-                  command=self.show_distance).pack(side=tk.LEFT, padx=5)
+                  command=self.execute_show_distance).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Moons", 
-                  command=self.show_moons).pack(side=tk.LEFT, padx=5)
+                  command=self.execute_show_moons).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Moon Count", 
-                  command=self.show_moon_count).pack(side=tk.LEFT, padx=5)
+                  command=self.execute_show_moon_count).pack(side=tk.LEFT, padx=5)
         
-        # Custom query section
+     
         custom_frame = ttk.LabelFrame(main_frame, text="Custom Query", padding="10")
         custom_frame.grid(row=3, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
         custom_frame.columnconfigure(1, weight=1)
-        
         ttk.Label(custom_frame, text="Enter planet name:").grid(row=0, column=0, sticky=tk.W, padx=(0, 10))
         self.custom_planet_var = tk.StringVar()
         custom_entry = ttk.Entry(custom_frame, textvariable=self.custom_planet_var)
         custom_entry.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=(0, 10))
         custom_entry.bind('<Return>', lambda e: self.check_planet_exists())
-        
         ttk.Button(custom_frame, text="Check if planet exists", 
                   command=self.check_planet_exists).grid(row=0, column=2)
-        
-        # Results section
         results_frame = ttk.LabelFrame(main_frame, text="Results", padding="10")
         results_frame.grid(row=4, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S))
         results_frame.columnconfigure(0, weight=1)
         results_frame.rowconfigure(0, weight=1)
-        
-        # Text widget for results with scrollbar
         self.results_text = scrolledtext.ScrolledText(results_frame, height=15, width=80, wrap=tk.WORD)
         self.results_text.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         
@@ -120,7 +110,6 @@ class SolarSystemGUI:
         list_frame = ttk.LabelFrame(main_frame, text="All Planets", padding="10")
         list_frame.grid(row=5, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(10, 0))
         list_frame.columnconfigure(0, weight=1)
-        
         self.planet_list_var = tk.StringVar()
 
     
@@ -131,7 +120,7 @@ class SolarSystemGUI:
     def process_each_query(self):
         query = self.query_var.get().strip()
         if not query:
-            messagebox.showwarning("Warning", "Please enter a question.")
+            messagebox.execute_showwarning("Warning", "Please enter a question.")
             return
         
         # Process the query
@@ -159,14 +148,14 @@ class SolarSystemGUI:
     def validate_planet_selection(self):
         planet_name = self.get_selected_planet()
         if not planet_name:
-            messagebox.showwarning("Warning", "Please select a planet first.")
+            messagebox.execute_showwarning("Warning", "Please select a planet first.")
             return None
         return planet_name
     
     def on_planet_select(self, event):
         planet_name = self.get_selected_planet()
         if planet_name:
-            self.show_init_info(planet_name)
+            self.execute_show_init_info(planet_name)
     
     def on_listbox_select(self, event):
         widget = event.widget
@@ -174,18 +163,18 @@ class SolarSystemGUI:
             index = widget.curselection()[0]
             planet_name = widget.get(index)
             self.planet_var.set(planet_name)
-            self.show_init_info(planet_name)
+            self.execute_show_init_info(planet_name)
     
-    def show_init_info(self, planet_name):
+    def execute_show_init_info(self, planet_name):
         planet = self.manager.get_planet(planet_name)
         if planet:
             self.clear_results()
-            self.append_result(f"Basic information for {planet.name}:")
+            self.append_result(f"Important information for {planet.name}:")
             self.append_result(f"  Mass: {planet.mass_kg:.2e} kg")
             self.append_result(f"  Distance from Sun: {planet.distance_from_sun_km:,.0f} km")
             self.append_result(f"  Number of moons: {len(planet.moons)}")
     
-    def show_everything(self):
+    def execute_show_everything(self):
         planet_name = self.validate_planet_selection()
         if not planet_name:
             return
@@ -194,7 +183,7 @@ class SolarSystemGUI:
         self.clear_results()
         self.append_result(response)
     
-    def show_mass(self):
+    def execute_show_mass(self):
         planet_name = self.validate_planet_selection()
         if not planet_name:
             return
@@ -203,7 +192,7 @@ class SolarSystemGUI:
         self.clear_results()
         self.append_result(response)
     
-    def show_distance(self):
+    def execute_show_distance(self):
         planet_name = self.validate_planet_selection()
         if not planet_name:
             return
@@ -212,7 +201,7 @@ class SolarSystemGUI:
         self.clear_results()
         self.append_result(response)
     
-    def show_moons(self):
+    def execute_show_moons(self):
         planet_name = self.validate_planet_selection()
         if not planet_name:
             return
@@ -221,7 +210,7 @@ class SolarSystemGUI:
         self.clear_results()
         self.append_result(response)
     
-    def show_moon_count(self):
+    def execute_show_moon_count(self):
         planet_name = self.validate_planet_selection()
         if not planet_name:
             return
@@ -233,7 +222,7 @@ class SolarSystemGUI:
     def check_planet_exists(self):
         planet_name = self.custom_planet_var.get().strip()
         if not planet_name:
-            messagebox.showwarning("Warning", "Enter please a planet name.")
+            messagebox.execute_showwarning("Warning", "you need to Enter please a planet name.")
             return
         
         response = self.query_execute.check_existence_response(planet_name)

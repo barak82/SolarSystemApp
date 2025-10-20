@@ -24,8 +24,8 @@
     "mass_kg": 6.417e23,
     "distance_from_sun_km": 227900000,
     "moons": [
-      "Phobos",
-      "Deimos"
+      "Deimos",
+      "Phobos"
     ]
   },
   {
@@ -33,9 +33,9 @@
     "mass_kg": 1.898e27,
     "distance_from_sun_km": 778500000,
     "moons": [
-      "Io",
-      "Europa",
       "Ganymede",
+      "Europa",
+      "Io",
       "Callisto"
     ]
   },
@@ -44,10 +44,10 @@
     "mass_kg": 5.683e26,
     "distance_from_sun_km": 1432000000,
     "moons": [
-      "Titan",
-      "Rhea",
       "Iapetus",
-      "Dione"
+      "Titan",
+      "Dione",
+      "Rhea"
     ]
   },
   {
@@ -55,10 +55,10 @@
     "mass_kg": 8.681e25,
     "distance_from_sun_km": 2867000000,
     "moons": [
-      "Titania",
       "Oberon",
-      "Umbriel",
-      "Ariel"
+      "Titania",
+      "Ariel",
+      "Umbriel"
     ]
   },
   {
@@ -66,8 +66,8 @@
     "mass_kg": 1.024e26,
     "distance_from_sun_km": 4515000000,
     "moons": [
-      "Triton",
       "Proteus",
+      "Triton",
       "Nereid"
     ]
   },
@@ -76,8 +76,8 @@
     "mass_kg": 1.309e22,
     "distance_from_sun_km": 5906400000,
     "moons": [
-      "Charon",
       "Styx",
+      "Charon",
       "Nix"
     ]
   }

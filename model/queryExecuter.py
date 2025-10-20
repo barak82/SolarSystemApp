@@ -34,7 +34,7 @@ class QueryExecuter:
             ],
             'is_exist': [
                 r'is (\w+) in the list of planets',
-                r'is (\w+) included',
+                r'is (\w+) included in the list',
             ],
             'list_planets': [
                 r'list all planets',
@@ -62,7 +62,7 @@ class QueryExecuter:
                 return self.execute_query(query_type, planet_name)
         
         # if thre is no query matching to the question then return the help message
-        return self.get_help_response()
+        return self.reply_unclear_questions()
     
     def execute_query(self, query_type, planet_name):
         if query_type == 'moon_count':
@@ -87,18 +87,18 @@ class QueryExecuter:
             return "i can not find the quesion on the query."
     
     def check_everything_response(self, planet_name):
-        planet = self.manager.get_planet(planet_name)
-        if not planet:
+        check_planet = self.manager.get_planet(planet_name)
+        if not check_planet:
             return f"NO information about '{planet_name}' in query."
         
-        response = f"you can find detail infromation below  baout {planet.name}:\n\n"
-        response += f"Name: {planet.name}\n"
-        response += f"Mass: {planet.mass_kg:.2e} kg\n"
-        response += f"Distance from Sun: {planet.distance_from_sun_km:,.0f} km\n"
-        response += f"Number of moons: {len(planet.moons)}\n"
+        response = f"you can find detail infromation below  about {check_planet.name}:\n\n"
+        response += f"Name: {check_planet.name}\n"
+        response += f"Mass: {check_planet.mass_kg:.2e} kg\n"
+        response += f"Distance from Sun: {check_planet.distance_from_sun_km:,.0f} km\n"
+        response += f"Number of moons: {len(check_planet.moons)}\n"
         
-        if planet.moons:
-            response += f"Moons: {', '.join(planet.moons)}\n"
+        if check_planet.moons:
+            response += f"Moons: {', '.join(check_planet.moons)}\n"
         else:
             response += "Moons: None\n"
         
@@ -150,7 +150,7 @@ class QueryExecuter:
         planets = self.manager.get_all_planet_names()
         return f"The planets in my database are: {', '.join(planets)}"
     
-    def get_help_response(self):
+    def reply_unclear_questions(self):
         help_text = """ the questions is unclear please use this as example to ask:
 
             • "Tell me everything about Saturn"
